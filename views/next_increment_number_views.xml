@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id='next_increment_number_form_view' model='ir.ui.view'>
+        <field name="name">next.increment.number.form</field>
+        <field name="model">next.increment.number</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="vehicle_id" required="1"/>
+                    <field name="number" required="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id='next_increment_number_tree_view' model='ir.ui.view'>
+        <field name="name">next.increment.number.tree</field>
+        <field name="model">next.increment.number</field>
+        <field name="arch" type="xml">
+            <tree string="Odometer Increment" editable="top">
+                <field name="name"/>
+                <field name="vehicle_id" required="1"/>
+                <field name="number" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='next_increment_number_search_view' model='ir.ui.view'>
+        <field name="name">next.increment.number.search</field>
+        <field name="model">next.increment.number</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="groupby_vehicle_next_increment" string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                <field name="vehicle_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id='next_increment_number_action' model='ir.actions.act_window'>
+        <field name="name">Odometer Increment</field>
+        <field name="res_model">next.increment.number</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

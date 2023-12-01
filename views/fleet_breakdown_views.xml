@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id='fleet_breakdown_tree_view' model='ir.ui.view'>
+        <field name="name">fleet.breakdown.tree.view</field>
+        <field name="model">fleet.breakdown</field>
+        <field name="arch" type="xml">
+            <tree create='false' string="Fleet Breakdown">
+                <field name="vehicle_id"/>
+                <field name="vehicle_plate"/>
+                <field name="report_date"/>
+                <field name="breakdown_type"/>
+                <field name="cost_esitmation"/>
+                <field name="date_cancel"/>
+                <field name="cancel_by_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='fleet_breakdown_form_view' model='ir.ui.view'>
+        <field name="name">fleet.breakdown.form.view</field>
+        <field name="model">fleet.breakdown</field>
+        <field name="arch" type="xml">
+            <form string="Fleet Breakdown">
+                <header>
+                    <button name="confirm_breakdown" string="Confirm" states="draft" type="object" class="oe_highlight" confirm="Are you sure you want to confirm this breakdown?"/>
+                    <button name="cancel_breakdown" states="confirm" string="Cancel" type="object" class="oe_highlight" confirm="Are you sure you want to close this breakdown?"/>
+                    <button name="action_set_to_draft" states="cancel" string=" Set to Draft" type="object" class="oe_highlight" confirm="Are you sure you want to set Draft this breakdown?"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,cancel"/>
+                </header>
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name" nolabel="1" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <separator string="Vehicle Information"/>
+                            <field name="vehicle_id" readonly="1"/>
+                            <field name="vehicle_fmp_id" readonly="1"/>
+                            <field name="vehicle_plate" readonly="1"/>
+                            <field name="currency_id"/>
+                            <!-- <field name="color_id" readonly="1" string="Vehicle Color" options="{'no_open': True, 'create': false, 'create_edit': false}"/> -->
+                            <!-- <field name="province_id" readonly="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/> -->
+                            <label for="odometer"/>
+                            <div>
+                                <field name="odometer" class="oe_inline" string="Vehicle Odometer" readonly="1"/>
+                                <field name="odometer_unit" class="oe_inline" readonly="1"/>
+                            </div>
+                            <field name="driver_id" readonly="1" context="{'is_driver':True}" options="{'no_open': True, 'create': false, 'create_edit': false}" string="Vehicle Driver"/>
+                            <field name="contact_no" readonly="1"/>
+                        </group>
+                        <group>
+                            <separator string="Assignment"/>                        
+                            <!-- <field name="division_id" invisible="1" readonly="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/> -->
+                            <field name="date_cancel" readonly="1" string="Cancel Date"/>
+                            <field name="cancel_by_id" readonly="1" string="Cancelled by" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                            <field name="report_date" attrs="{'readonly': [('state','in',('confirm','cancel'))]}"/>
+                            <field name="breakdown_type" attrs="{'readonly': [('state','in',('confirm','cancel'))]}"/>
+                            <field name="cost_esitmation" widget="monetary" string="Expense To Repair" attrs="{'readonly': [('state','in',('confirm','cancel'))]}"/>
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Damages and Repair">
+                            <group>
+                                <group>
+                                    <field name="damage_type_ids" widget="many2many_checkboxes"/>
+                                </group>
+                                <group>
+                                    <field name="repair_type_ids" widget="many2many_checkboxes"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Breakdown Pictures">
+                            <field name="multi_images" widget="many2many_binary"/>
+                        </page>
+                        <page string="Preventive Cause Notes">
+                            <field name="note" placeholder="Preventive Note.." colspan="4" attrs="{'readonly':[('state','in',['confirm','cancel'])]}" nolabel="1"/>
+                        </page>
+                        <page string="Other Note" colspan="4">
+                            <field name="cancel_note" placeholder="Extra Note..." colspan="4" attrs="{'readonly':[('state','in',['confirm','cancel'])]}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fleet_breakdown_search_view" model="ir.ui.view">
+        <field name="name">fleet.breakdown.search.view</field>
+        <field name="model">fleet.breakdown</field>
+        <field name="arch" type="xml">
+            <search string="All Write off vehicles">
+                <filter name="groupby_vehicle" string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                <field name="vehicle_fmp_id" string="Vehicle ID" filter_domain="[('vehicle_fmp_id','ilike',self)]"/>
+                <field name="vehicle_plate" string="License Plate" filter_domain="[('vehicle_plate','ilike',self)]"/>
+           </search>
+        </field>
+    </record>
+
+    <record id='fleet_breakdown_action' model='ir.actions.act_window'>
+        <field name="name">Vehicles Breakdown</field>
+        <field name="res_model">fleet.breakdown</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+            Click to create a new breakdown entry.
+            </p><p>
+            Helps you keeping track of all the breakdown done
+            on your vehicle. Write off can be of many type: general accident
+            insurgent accident etc.
+            </p>
+        </field>
+    </record>
+
+    <record id="fleet_breakdown_form_action" model="ir.actions.act_window">
+        <field name="name">Breakdown</field>
+        <field name="res_model">fleet.breakdown</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fleet_breakdown_form_view"/>
+    </record>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="vehicle_type_1" model="vehicle.type">
+        <field name="name">Motorbike</field>
+    </record>
+    <record id="vehicle_type_2" model="vehicle.type">
+        <field name="name">Truck</field>
+    </record>
+    <record id="vehicle_type_3" model="vehicle.type">
+        <field name="name">Car</field>
+    </record>
+</odoo>

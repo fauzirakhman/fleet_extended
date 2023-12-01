@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="fleet_vehicle_log_services_form_action" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">fleet.vehicle.log.services</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+    </record>
+
+    <record id='fleet_vehicle_log_services_view_form_tap' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.log.services.view.form.tap</field>
+        <field name="model">fleet.vehicle.log.services</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="replace">
+                <header>
+                    <button name="action_confirm" string="Confirm" class="oe_highlight" type="object" states="draft" groups="base.group_system,fleet.fleet_group_manager"/>
+                    <button name="action_done" string="Done" type="object" states="confirm" confirm="Are you sure about the cost amount?" class="oe_highlight" groups="base.group_system,fleet.fleet_group_manager"/>
+                    <button name="action_reopen" attrs="{'invisible':[('state','!=','done')]}" groups="fleet.fleet_group_manager" type="object" string="Re-Open"/>
+                    <field name="state" widget="statusbar" statusbar_visible="confirm,done" statusbar_colors='{"confirm":"blue","done":"blue", "cancel":"red"}'/>
+                </header>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="clickable">0</attribute>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="after">
+                <group col="2">
+                    <group string="Additional Details">
+                        <field name="date" string="Service Report On" readonly="1"/>
+                        <field name="date_open" readonly="True" string="Service Start Date"/>
+                        <field name="date_close" readonly="True" string="Service Close Date"/>
+                        <field name="closed_by" readonly="True" options="{'no_open': True, 'create': false, 'create_edit': false}" can_create="true" can_write="true"/>
+                        <field name="inv_ref"/>
+                    </group>
+                    <group string="Service Order Details">
+                        <field name="priority" required="1" string="Service Priority" attrs="{'readonly':[('state','in',('draft','done'))]}"/>
+                        <field name="etic" invisible="1" attrs="{'readonly':[('state','in',('draft','done'))]}"/>
+                        <field name="date_complete" required="1" attrs="{'invisible':[('etic','=',False)], 'readonly': [('state','=','done')]}" string="Estimated Date" on_change="1"/>
+                        <field name="team_id" string="Work Shop" attrs="{'readonly':[('state','in',('draft','done'))],'required':[('state','in',('confirm'))]}" context="{'wo':True,'default_is_company':True}" domain="[('is_company','=',True)]" can_create="true" can_write="true"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//sheet/group/group[2]/div" position="after">
+                <field name="next_service_odometer" class="oe_inline" string="Next Service Odometer"/>
+                <field name="next_service_date" readonly="True" attrs="{'readonly':[('state','=','done')]}"/>
+                <field name="source_service_id" string="Re-Opened From" attrs="{'invisible':[('source_service_id','=',False)]}" readonly="1"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <notebook>
+                    <page string="Repairs">
+                        <field name="repair_line_ids" attrs="{'readonly':[('state','in',('draft','done'))]}" context="{'default_issue_date': date}" mode="tree,form">
+                            <tree>
+                                <field name="repair_type_id" required="1"/>
+                                <field name="categ_id" invisible="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                                <field name="issue_date" invisible="1"/>
+                                <field name="date_complete" invisible="1"/>
+                                <field name="target_date"/>
+                                <field name="complete"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="repair_type_id" required="1"/>
+                                    <field name="categ_id" invisible="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                                    <field name="issue_date" invisible="1"/>
+                                    <field name="date_complete" invisible="1"/>
+                                    <field name="target_date"/>
+                                    <field name="complete"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+</odoo>

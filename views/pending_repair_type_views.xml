@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id='pending_repair_type_tree_view' model='ir.ui.view'>
+        <field name="name">pending.repair.typeltree_view</field>
+        <field name="model">pending.repair.type</field>
+        <field name="arch" type="xml">
+            <tree string="Pending Repair Type">
+                <field name="vehicle_id" invisible="1"/>
+                <field name="name" required="1"/>
+                <field name="repair_type_id"/>
+                <field name="categ_id"/>
+                <field name="issue_date"/>
+                <field name="state"/>
+                <field name="user_id"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

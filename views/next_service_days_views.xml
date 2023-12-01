@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id='next_service_days_form' model='ir.ui.view'>
+        <field name="name">next.service.days.form</field>
+        <field name="model">next.service.days</field>
+        <field name="arch" type="xml">
+            <form string="Next Service Days">
+                <group>
+                    <field name="name"/>
+                    <field name="vehicle_id" required="1"/>
+                    <field name="days" required="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="next_service_days_tree" model='ir.ui.view'>
+        <field name="name">next.service.days.tree</field>
+        <field name="model">next.service.days</field>
+        <field name="arch" type="xml">
+            <tree string="Next Service Days" editable="top" delete="1">
+                <field name="name"/>
+                <field name="vehicle_id" required="1"/>
+                <field name="days" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="next_service_days_search" model='ir.ui.view'>
+        <field name="name">next.service.days.search</field>
+        <field name="model">next.service.days</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="groupby_vehicle_next_service_days" string="Vehicle" domain="[]" context="{'group_by':'vehicle_id'}"/>
+                <field name="vehicle_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="next_service_days_action" model="ir.actions.act_window">
+        <field name="name">Next Service Days</field>
+        <field name="res_model">next.service.days</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

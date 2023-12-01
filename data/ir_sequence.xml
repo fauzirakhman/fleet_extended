@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Sequence for Service Order. -->
+    <record id="sequence_service_order" model="ir.sequence">
+        <field name="name">Service Order Sequence</field>
+        <field name="code">service.order.sequence</field>
+        <field name="prefix">SER/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+    </record>
+
+</odoo>

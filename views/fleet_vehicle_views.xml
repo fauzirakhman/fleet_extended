@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="fleet_vehicle_view_form_tap" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.tap</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='open_assignation_logs']" position="before">
+                <button class="oe_stat_button" name="attachment_tree_view" type="object" icon="fa-files-o">
+                    <field string="Documents" name="doc_count" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="//field[@name='mobility_card']" position="attributes">
+                <attribute name="attrs">{'invisible': [('driver_id', '=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobility_card']" position="after">
+                <field name="shared_mobility_card" attrs="{'invisible': [('driver_id', '!=', False)]}"/>
+            </xpath>
+
+<!-- EXTENDED -->
+            <xpath expr="//header/field[@name='state_id']" position="replace">
+                <button name="update_history" type="object" string="Update Tire" context="{'history':'tire'}" icon="fa-circle-o" class="oe_stat_button oe_highlight" groups="fleet.fleet_group_manager" attrs="{'invisible':[('state','in',('breakdown'))]}"/>
+                <button name="update_history" type="object" string="Update Battery" context="{'history':'battery'}" icon="fa-bolt" class="oe_stat_button oe_highlight" groups="fleet.fleet_group_manager" attrs="{'invisible':[('state','in',('breakdown'))]}"/>
+                <button name="%(fleet_vehicle_log_services_form_action)d" type="action" string="Services" icon="fa-gears" class="oe_stat_button oe_highlight" context="{'default_vehicle_id': active_id}"/>
+                <button name="%(fleet_breakdown_form_action)d" type="action" string="Breakdown" icon="fa-gears" class="oe_stat_button oe_highlight" domain="[('state','in',('inspection','released'))]" context="{'default_vehicle_id': active_id}"/>
+                <field name="state" widget="statusbar" statusbar_visible="inspection,in_progress,complete"/>
+            </xpath>
+            <xpath expr="//field[@name='driver_id']" position="after">
+                <field name="driver_identification_no" attrs="{'readonly':[('state','in',('breakdown'))]}"/>
+                <field name="driver_contact_no" attrs="{'readonly':[('state','in',('breakdown'))]}"/>
+            </xpath>
+            <xpath expr="//field[@name='acquisition_date']" position="after">
+                <field name="vehicle_type_id" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+            </xpath>
+            <xpath expr="//field[@name='horsepower']" position="before">
+                <field name="engine_no"/>
+            </xpath>
+            <xpath expr="//form/sheet/group[@col='2']" position="after">
+                <notebook colspan="4">
+                    <page string="Features">
+                        <group string="">
+                            <group string="Tire Detail">
+                                <field name="tire_season" attrs="{'readonly':[('is_tire_season_set','=',True)]}"/>
+                                <field name="tire_size" attrs="{'readonly':[('is_tire_size_set','=',True)]}"/>
+                                <field name="tire_srno" attrs="{'readonly':[('is_tire_srno_set','=',True)]}"/>
+                                <field name="tire_issuance_date" attrs="{'readonly':[('is_tire_issue_set','=',True)]}"/>
+                            </group>
+                            <group string="Battery Detail">
+                                <field name="battery_name" attrs="{'readonly':[('is_battery_name_set','=',True)]}"/>
+                                <field name="battery_size" attrs="{'readonly':[('is_battery_size_set','=',True)]}"/>
+                                <field name="battery_srno" attrs="{'readonly':[('is_battery_srno_set','=',True)]}"/>
+                                <field name="battery_issuance_date" attrs="{'readonly':[('is_battery_issue_set','=',True)]}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="History">
+                        <group colspan="4" col="6">
+                            <field name="is_tire_season_set" invisible="1"/>
+                            <field name="is_tire_size_set" invisible="1"/>
+                            <field name="is_tire_srno_set" invisible="1"/>
+                            <field name="is_tire_issue_set" invisible="1"/>
+                            <field name="is_battery_name_set" invisible="1"/>
+                            <field name="is_battery_size_set" invisible="1"/>
+                            <field name="is_battery_srno_set" invisible="1"/>
+                            <field name="is_battery_issue_set" invisible="1"/>
+                        </group>
+                        <separator string="Tire History" colspan="4"/>
+                        <field name="tire_history_ids" nolabel="1">
+                            <tree>
+                                <field name="previous_tire_season"/>
+                                <field name="new_tire_season"/>
+                                <field name="previous_tire_size"/>
+                                <field name="new_tire_size"/>
+                                <field name="previous_tire_sn"/>
+                                <field name="new_tire_sn"/>
+                                <field name="previous_tire_issue_date"/>
+                                <field name="new_tire_issue_date"/>
+                                <field name="workorder_id"/>
+                                <field name="changed_date"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                        <separator string="Battery History" colspan="4"/>
+                        <field name="battery_history_ids" nolabel="1">
+                            <tree>
+                                <field name="previous_battery_name"/>
+                                <field name="new_battery_name"/>
+                                <field name="previous_battery_size"/>
+                                <field name="new_battery_size"/>
+                                <field name="previous_battery_sn"/>
+                                <field name="new_battery_sn"/>
+                                <field name="previous_battery_issue_date"/>
+                                <field name="new_battery_issue_date"/>
+                                <field name="workorder_id"/>
+                                <field name="changed_date"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Service Details">
+                        <group colspan="4" col="6">
+                            <group string="Last Service">
+                                <field name="last_service_date"/>
+                                <field name="last_change_status_date"/>
+                                <field name="last_service_by_id" readonly="1"/>
+                            </group>
+                            <group string="Next Service Due">
+                                <field name="next_service_date"/>
+                                <label for="due_odometer"/>
+                                <div>
+                                    <field name="due_odometer" class="oe_inline" readonly="1"/>
+                                    <field name="due_odometer_unit" class="oe_inline" readonly="1"/>
+                                </div>
+                            </group>
+                        </group>
+                        <separator string="Work Orders" colspan="4" invisible="1"/>
+                        <field name="work_order_ids" invisible="1">
+                            <tree>
+                                <!-- <field name="name"/> -->
+                                <field name="service_type_id"/>
+                                <field name="date" string="Issue Date"/>
+                                <field name="date_open"/>
+                                <field name="date_close"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                        <separator string="Pending Repair Types" colspan="4"/>
+                        <field name="pending_repair_type_ids">
+                            <tree>
+                                <field name="vehicle_id" invisible="1"/>
+                                <field name="name"/>
+                                <field name="repair_type_id"/>
+                                <field name="categ_id"/>
+                                <field name="issue_date"/>
+                                <field name="state"/>
+                                <field name="user_id"/>
+                            </tree>
+                            <form>
+                                <group colspan="4" col="4">
+                                    <field name="vehicle_id" invisible="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                                    <field name="name"/>
+                                    <field name="repair_type_id" readonly="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                                    <field name="categ_id" readonly="1"/>
+                                    <field name="issue_date" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                    <field name="user_id" readonly="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                                </group>
+                            </form>
+                         </field>
+                    </page>
+                </notebook>
+            </xpath>
+        </field>
+    </record>
+
+    <record id='fleet_vehicle_view_kanban_tap' model='ir.ui.view'>
+        <field name="name">fleet.vehicle.view.kanban.tap</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban[@default_group_by='state_id']"
+                    position="attributes">
+                <attribute name="default_group_by">state</attribute>
+                <attribute name="edit">false</attribute>
+                <attribute name="quick_create">false</attribute>
+            </xpath>
+            <xpath expr="//kanban/field[@name='location']" position="replace"/>
+            <xpath expr="//kanban/field[@name='state_id']" position="replace"/>
+            <xpath expr="//kanban/field[@name='tag_ids']" position="replace">
+                <field name="state"/>
+            </xpath>
+            <xpath expr="//div[hasclass('o_kanban_tags_section')]/field[@name='tag_ids']" position="replace">
+                <field name="state" widget="kanban_label_selection"
+                    options="{'classes': {'draft': 'default', 'complete': 'success', 'released': 'success', 'rent': 'warning', 'in_progress': 'warning'}}"/>
+            </xpath>
+            <xpath expr="//kanban/field[@name='contract_renewal_due_soon']" position="replace"/>
+            <xpath expr="//kanban/field[@name='contract_renewal_overdue']" position="replace"/>
+            <xpath expr="//kanban/field[@name='contract_renewal_name']" position="replace"/>
+            <xpath expr="//kanban/field[@name='contract_renewal_total']" position="replace"/>
+            <xpath expr="//div[hasclass('oe_kanban_details')]/ul/li[2]" position="replace"/>
+            <xpath expr="//div[hasclass('o_kanban_record_bottom')]" position="replace"/>
+        </field>
+    </record>
+</odoo>

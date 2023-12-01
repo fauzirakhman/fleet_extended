@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="damage_type_01" model="damage.type">
+        <field name="name">LEFT HAND FRONT</field>
+        <field name="code">DT0001</field>
+    </record>
+    <record id="damage_type_02" model="damage.type">
+        <field name="name">LEFT HAND MIDDLE</field>
+        <field name="code">DT0002</field>
+    </record>
+    <record id="damage_type_03" model="damage.type">
+        <field name="name">INTERIOR</field>
+        <field name="code">DT0003</field>
+    </record>
+    <record id="damage_type_04" model="damage.type">
+        <field name="name">LEFT HAND REAR</field>
+        <field name="code">DT0004</field>
+    </record>
+    <record id="damage_type_05" model="damage.type">
+        <field name="name">LEFT HAND FRONT SUSPENSION</field>
+        <field name="code">DT0005</field>
+    </record>
+    <record id="damage_type_06" model="damage.type">
+        <field name="name">LEFT HAND REAR SUSPENSION</field>
+        <field name="code">DT0006</field>
+    </record>
+    <record id="damage_type_07" model="damage.type">
+        <field name="name">CHASSIS</field>
+        <field name="code">DT0007</field>
+    </record>
+    <record id="damage_type_08" model="damage.type">
+        <field name="name">RIGHT HAND FRONT</field>
+        <field name="code">DT0008</field>
+    </record>
+    <record id="damage_type_09" model="damage.type">
+        <field name="name">ROOF PANEL</field>
+        <field name="code">DT0009</field>
+    </record>
+    <record id="damage_type_10" model="damage.type">
+        <field name="name">RIGHT HAND REAR</field>
+        <field name="code">DT00010</field>
+    </record>
+    <record id="damage_type_11" model="damage.type">
+        <field name="name">RIGHT HAND FRONT SUSPENSION</field>
+        <field name="code">DT00011</field>
+    </record>
+    <record id="damage_type_12" model="damage.type">
+        <field name="name">RIGHT HAND REAR SUSPENSION</field>
+        <field name="code">DT00012</field>
+    </record>
+    <record id="damage_type_13" model="damage.type">
+        <field name="name">UNDER BONNET</field>
+        <field name="code">DT00013</field>
+    </record>
+    <record id="damage_type_14" model="damage.type">
+        <field name="name">TRANSMISSION</field>
+        <field name="code">DT00014</field>
+    </record>
+</odoo>

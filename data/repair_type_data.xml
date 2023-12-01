@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="nds_repair_type_01" model="repair.type">
+        <field name="name">Inspection</field>
+    </record>
+    <record id="nds_repair_type_02" model="repair.type">
+        <field name="name">AC Repair</field>
+    </record>
+    <record id="nds_repair_type_03" model="repair.type">
+        <field name="name">AC Gas</field>
+    </record>
+    <record id="nds_repair_type_04" model="repair.type">
+        <field name="name">Beyond Economical Repair</field>
+    </record>
+    <record id="nds_repair_type_05" model="repair.type">
+        <field name="name">Body Repair</field>
+    </record>
+    <record id="nds_repair_type_06" model="repair.type">
+        <field name="name">Body Repaint</field>
+    </record>
+    <record id="nds_repair_type_07" model="repair.type">
+        <field name="name">Break System</field>
+    </record>
+    <record id="nds_repair_type_08" model="repair.type">
+        <field name="name">Cooling System</field>
+    </record>
+    <record id="nds_repair_type_09" model="repair.type">
+        <field name="name">Drive Train</field>
+    </record>
+    <record id="nds_repair_type_10" model="repair.type">
+        <field name="name">Electrical System</field>
+    </record>
+    <record id="nds_repair_type_11" model="repair.type">
+        <field name="name">Engine Overhaul</field>
+    </record>
+    <record id="nds_repair_type_12" model="repair.type">
+        <field name="name">Engine Repair</field>
+    </record>
+    <record id="nds_repair_type_13" model="repair.type">
+        <field name="name">Exhaust System</field>
+    </record>
+    <record id="nds_repair_type_14" model="repair.type">
+        <field name="name">Fuel System</field>
+    </record>
+    <record id="nds_repair_type_15" model="repair.type">
+        <field name="name">Insurgent Attack</field>
+    </record>
+    <record id="nds_repair_type_16" model="repair.type">
+        <field name="name">Road Wheel and Tire</field>
+    </record>
+    <record id="nds_repair_type_17" model="repair.type">
+        <field name="name">Routine Service and Inspection</field>
+    </record>
+    <record id="nds_repair_type_18" model="repair.type">
+        <field name="name">Steering System</field>
+    </record>
+    <record id="nds_repair_type_19" model="repair.type">
+        <field name="name">Suspension System</field>
+    </record>
+    <record id="nds_repair_type_20" model="repair.type">
+        <field name="name">Vehicle Roll Over</field>
+    </record>
+</odoo>
