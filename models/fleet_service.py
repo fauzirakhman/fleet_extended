@@ -32,6 +32,26 @@ class FleetVehicleLogServices(models.Model):
             vehicle = self.vehicle_id
             self.update({"vehicle_type_id": vehicle.vehicle_type_id.id or False})
 
+    @api.model
+    def default_get(self, fields):
+        vehicle_obj = self.env['fleet.vehicle']
+        repair_type_obj = self.env['repair.type']
+        if self._context.get('active_ids', False):
+            for vehicle in vehicle_obj.browse(self._context['active_ids']):
+                if vehicle.state == 'breakdown':
+                    raise UserError("You cannot create work order for vehicle which is already Breakdown!")
+                elif vehicle.state == 'in_progress':
+                    raise UserError("Previous work order is not complete, please complete that work order first than you can create new work order!")
+                elif vehicle.state == 'rent':
+                    raise UserError("You cannot create work order for vehicle which is already On Rent!")
+                elif vehicle.state == 'draft' or vehicle.state == 'complete':
+                    raise UserError("New work order can only be generated either vehicle status is in Inspection or Released!")
+        res = super(FleetVehicleLogServices, self).default_get(fields)
+        repair_type_ids = repair_type_obj.search([])
+        if not repair_type_ids:
+            raise UserError("There is no data for repair type, add repair type from configuration!")
+        return res
+
     @api.onchange('service_type_id')
     def get_repair_line(self):
         repair_lines = []
@@ -39,6 +59,13 @@ class FleetVehicleLogServices(models.Model):
             for repair_type in self.service_type_id.repair_type_ids:
                 repair_lines.append((0, 0, {'repair_type_id': repair_type.id}))
             self.repair_line_ids = repair_lines
+
+    @api.onchange('vehicle_id')
+    def _onchange_vehicle(self):
+        if self.vehicle_id:
+            self.odometer = self.vehicle_id.odometer
+            self.odometer_unit = self.vehicle_id.odometer_unit
+            self.purchaser_id = self.vehicle_id.driver_id.id
 
     @api.constrains('date', 'date_complete')
     def check_complete_date(self):
@@ -72,6 +99,8 @@ class FleetVehicleLogServices(models.Model):
         context = self.env.context.copy()
         for work_order in self:
             if work_order.vehicle_id:
+                if work_order.vehicle_id.state == 'breakdown':
+                    raise UserError("You cannot confirm this work order as vehicle is in breakdown state!")
                 if work_order.vehicle_id.state == 'in_progress':
                     raise UserError("Previous work order is not complete, complete that work order first then you can confirm this work order!")
                 elif work_order.vehicle_id.state == 'draft' or work_order.vehicle_id.state == 'complete':

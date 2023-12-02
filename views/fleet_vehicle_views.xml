@@ -32,6 +32,12 @@
             <xpath expr="//field[@name='acquisition_date']" position="after">
                 <field name="vehicle_type_id" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
             </xpath>
+            <xpath expr="//field[@name='odometer']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state','in',('breakdown'))]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='odometer_unit']" position="attributes">
+                <attribute name="attrs">{'readonly':[('state','in',('breakdown'))]}</attribute>
+            </xpath>
             <xpath expr="//field[@name='horsepower']" position="before">
                 <field name="engine_no"/>
             </xpath>
@@ -40,16 +46,16 @@
                     <page string="Features">
                         <group string="">
                             <group string="Tire Detail">
-                                <field name="tire_season" attrs="{'readonly':[('is_tire_season_set','=',True)]}"/>
-                                <field name="tire_size" attrs="{'readonly':[('is_tire_size_set','=',True)]}"/>
-                                <field name="tire_srno" attrs="{'readonly':[('is_tire_srno_set','=',True)]}"/>
-                                <field name="tire_issuance_date" attrs="{'readonly':[('is_tire_issue_set','=',True)]}"/>
+                                <field name="tire_season" attrs="{'readonly':[('is_tire_season_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="tire_size" attrs="{'readonly':[('is_tire_size_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="tire_srno" attrs="{'readonly':[('is_tire_srno_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="tire_issuance_date" attrs="{'readonly':[('is_tire_issue_set','=',True),('state','in',('breakdown'))]}"/>
                             </group>
                             <group string="Battery Detail">
-                                <field name="battery_name" attrs="{'readonly':[('is_battery_name_set','=',True)]}"/>
-                                <field name="battery_size" attrs="{'readonly':[('is_battery_size_set','=',True)]}"/>
-                                <field name="battery_srno" attrs="{'readonly':[('is_battery_srno_set','=',True)]}"/>
-                                <field name="battery_issuance_date" attrs="{'readonly':[('is_battery_issue_set','=',True)]}"/>
+                                <field name="battery_name" attrs="{'readonly':[('is_battery_name_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="battery_size" attrs="{'readonly':[('is_battery_size_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="battery_srno" attrs="{'readonly':[('is_battery_srno_set','=',True),('state','in',('breakdown'))]}"/>
+                                <field name="battery_issuance_date" attrs="{'readonly':[('is_battery_issue_set','=',True),('state','in',('breakdown'))]}"/>
                             </group>
                         </group>
                     </page>
@@ -158,8 +164,7 @@
         <field name="model">fleet.vehicle</field>
         <field name="inherit_id" ref="fleet.fleet_vehicle_view_kanban"/>
         <field name="arch" type="xml">
-            <xpath expr="//kanban[@default_group_by='state_id']"
-                    position="attributes">
+            <xpath expr="//kanban[@default_group_by='state_id']" position="attributes">
                 <attribute name="default_group_by">state</attribute>
                 <attribute name="edit">false</attribute>
                 <attribute name="quick_create">false</attribute>
@@ -170,8 +175,7 @@
                 <field name="state"/>
             </xpath>
             <xpath expr="//div[hasclass('o_kanban_tags_section')]/field[@name='tag_ids']" position="replace">
-                <field name="state" widget="kanban_label_selection"
-                    options="{'classes': {'draft': 'default', 'complete': 'success', 'released': 'success', 'rent': 'warning', 'in_progress': 'warning'}}"/>
+                <field name="state" widget="kanban_label_selection" options="{'classes': {'draft': 'default', 'complete': 'success', 'released': 'success', 'breakdown': 'danger', 'rent': 'warning', 'in_progress': 'warning'}}"/>
             </xpath>
             <xpath expr="//kanban/field[@name='contract_renewal_due_soon']" position="replace"/>
             <xpath expr="//kanban/field[@name='contract_renewal_overdue']" position="replace"/>
