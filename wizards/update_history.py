@@ -153,3 +153,56 @@ class UpdateBatteryInfo(models.TransientModel):
         return True
 
 UpdateBatteryInfo()
+
+
+class UpdateColorInfo(models.TransientModel):
+    _name = 'update.color.info'
+    _description = 'Update Color Info'
+
+    workorder_id = fields.Many2one('fleet.vehicle.log.services', string='Work Order')
+    previous_color_id = fields.Many2one('color.color', string="Previous Color")
+    current_color_id = fields.Many2one('color.color', string="New Color")
+    changed_date = fields.Date(string='Change Date', default=fields.Date.today())
+    note = fields.Text(string='Notes', translate=True)
+    temp_bool = fields.Boolean(default=True, string='Temp Bool for making previous color readonly')
+    vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicle")
+
+    @api.constrains('changed_date')
+    def check_color_changed_date(self):
+        for vehicle in self:
+            if vehicle.changed_date and vehicle.vehicle_id.acquisition_date:
+                if vehicle.changed_date < vehicle.vehicle_id.acquisition_date:
+                    raise ValidationError('Color change date should be greater than vehicle registration date.')
+
+    @api.model
+    def default_get(self, fields):
+        vehicle_obj = self.env['fleet.vehicle']
+        res = super(UpdateColorInfo, self).default_get(fields)
+        if self._context.get('active_id', False):
+            vehicle = vehicle_obj.browse(self._context['active_id'])
+            res.update({
+                'previous_color_id': vehicle.vehicle_color_id.id or False,
+                'vehicle_id': vehicle.id or False
+            })
+        return res
+
+    def set_new_color_info(self):
+        vehicle_obj = self.env['fleet.vehicle']
+        color_history_obj = self.env['color.history']
+        if self._context.get('active_id', False):
+            vehicle = vehicle_obj.browse(self._context['active_id'])
+            for wiz_data in self:
+                vehicle.write({
+                    'vehicle_color_id': wiz_data.current_color_id.id or False
+                })
+                color_history_obj.create({
+                    'previous_color_id': wiz_data.previous_color_id.id or False,
+                    'current_color_id': wiz_data.current_color_id.id or False,
+                    'note': wiz_data.note or '',
+                    'changed_date': wiz_data.changed_date,
+                    'workorder_id': wiz_data.workorder_id.id or False,
+                    'vehicle_id': vehicle.id
+                })
+        return True
+
+UpdateColorInfo

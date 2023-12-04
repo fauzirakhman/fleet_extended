@@ -1,4 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_type,access.vehicle.type,model_vehicle_type,,1,1,1,1
+access_color_color,access.color.color,model_color_color,,1,1,1,1
 access_repair_type,access.repair.type,model_repair_type,,1,1,1,1
 access_fleet_service_type,access.fleet.service.type,model_fleet_service_type,,1,1,1,1
 access_next_increment_number,access.next.increment.number,model_next_increment_number,,1,1,1,1
@@ -8,8 +10,7 @@ access_fleet_breakdown,access.fleet.breakdown,model_fleet_breakdown,,1,1,1,1
 
 access_tire_history,access.tire.history,model_tire_history,,1,1,1,1
 access_battery_history,access.battery.history,model_battery_history,,1,1,1,1
-access_update_tire_info,access.update.tire.info,model_update_tire_info,,1,1,1,1
-access_update_battery_info,access.update.battery.info,model_update_battery_info,,1,1,1,1
+access_color_history,access.color.history,model_color_history,,1,1,1,1
 access_pending_repair_type,access.pending.repair.type,model_pending_repair_type,,1,1,1,1
 access_service_category,access.service.category,model_service_category,,1,1,1,1
 access_service_repair_line,access.service.repair.line,model_service_repair_line,,1,1,1,1
@@ -17,5 +18,6 @@ access_service_repair_line,access.service.repair.line,model_service_repair_line,
 access_continue_pending_repair,access.continue.pending.repair,model_continue_pending_repair,,1,1,1,1
 access_update_tire_info,access.update.tire.info,model_update_tire_info,,1,1,1,1
 access_update_battery_info,access.update.battery.info,model_update_battery_info,,1,1,1,1
+access_update_color_info,access.update.color.info,model_update_color_info,,1,1,1,1
 access_update_next_service_config,access.update.next.service.config,model_update_next_service_config,,1,1,1,1
 access_pending_repair_confirm,access.pending.repair.confirm,model_pending_repair_confirm,,1,1,1,1

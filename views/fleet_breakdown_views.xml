@@ -41,7 +41,7 @@
                             <field name="vehicle_fmp_id" readonly="1"/>
                             <field name="vehicle_plate" readonly="1"/>
                             <field name="currency_id"/>
-                            <!-- <field name="color_id" readonly="1" string="Vehicle Color" options="{'no_open': True, 'create': false, 'create_edit': false}"/> -->
+                            <field name="color_id" readonly="1" string="Vehicle Color" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
                             <!-- <field name="province_id" readonly="1" options="{'no_open': True, 'create': false, 'create_edit': false}"/> -->
                             <label for="odometer"/>
                             <div>

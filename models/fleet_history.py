@@ -39,3 +39,17 @@ class BatteryHistory(models.Model):
     workorder_id = fields.Many2one('fleet.vehicle.log.services', string='Work Order')
 
 BatteryHistory()
+
+
+class ColorHistory(models.Model):
+    _name = 'color.history'
+    _description = 'Color History for Vehicle'
+
+    vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicle")
+    previous_color_id = fields.Many2one('color.color', string="Previous Color")
+    current_color_id = fields.Many2one('color.color', string="New Color")
+    changed_date = fields.Date(string='Change Date')
+    note = fields.Text(string='Notes', translate=True)
+    workorder_id = fields.Many2one('fleet.vehicle.log.services', string='Work Order')
+
+ColorHistory()

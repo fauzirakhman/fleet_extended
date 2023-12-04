@@ -84,6 +84,11 @@ class FleetVehicle(models.Model):
     is_battery_issue_set = fields.Boolean(string='Is battery Issue set?')
     battery_history_ids = fields.One2many('battery.history', 'vehicle_id', string="Battrey History", readonly=True)
 
+    ### Color ###
+    vehicle_color_id = fields.Many2one('color.color', string='Vehicle Color')
+    is_color_set = fields.Boolean(string='Is Color Set?')
+    color_history_ids = fields.One2many('color.history', 'vehicle_id', string="Color History", readonly=True)
+
     ### Services ###
     last_service_date = fields.Date(string='Last Service', readonly=True)
     last_change_status_date = fields.Date(string='Last Status Changed Date', readonly=True)
@@ -117,6 +122,9 @@ class FleetVehicle(models.Model):
         if vals.get('battery_issuance_date', False):
             vals.update({'is_battery_issue_set': True})
 
+        if vals.get('vehical_color_id', False):
+            vals.update({'is_color_set': True})
+
         return super(FleetVehicle, self).create(vals)
 
     def update_history(self):
@@ -135,6 +143,10 @@ class FleetVehicle(models.Model):
                 wizard_view = "update_battery_info_form_view"
                 res_model = "update.battery.info"
                 view_name = "Update Battery Info"
+            elif context.get("history", False) == "color":
+                wizard_view = "update_color_info_form_view"
+                res_model = "update.color.info"
+                view_name = "Update Color Info"
 
         model_data_ids = mod_obj.search([('model', '=', 'ir.ui.view'), ('name', '=', wizard_view)])
         resource_id = model_data_ids.read(['res_id'])[0]['res_id']

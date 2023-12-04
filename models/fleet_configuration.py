@@ -2,6 +2,38 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
+class ColorColor(models.Model):
+    _name = 'color.color'
+    _description = 'Colors'
+
+    code = fields.Char(string='Code', translate=True)
+    name = fields.Char(string='Name', required=True, translate=True)
+
+    @api.constrains('name')
+    def check_color(self):
+        for rec in self:
+            if self.env['color.color'].search_count([('name', 'ilike', rec.name.strip()), ('id', '!=', rec.id)]):
+                raise ValidationError("This color already exist")
+
+ColorColor()
+
+
+class VehicleType(models.Model):
+    _name = 'vehicle.type'
+    _description = 'Vehicle Type'
+
+    code = fields.Char(string='Code')
+    name = fields.Char(string='Name', required=True)
+
+    @api.constrains('name')
+    def _check_unique_vehicle_type(self):
+        for vehicle_type in self:
+            if self.search_count([('id', '!=', vehicle_type.id), ('name', 'ilike', vehicle_type.name.strip())]):
+                raise UserError('Vehicle type with this name already exists!')
+
+VehicleType()
+
+
 class ServiceCategory(models.Model):
     _name = 'service.category'
     _description = 'Service Category'
@@ -92,3 +124,19 @@ class FleetServiceType(models.Model):
                 raise UserError('Service type with this name already exists!')
 
 FleetServiceType()
+
+
+class DamageType(models.Model):
+    _name = 'damage.type'
+    _description = 'Damage Type'
+
+    name = fields.Char(string='Name', translate=True)
+    code = fields.Char(string='Code')
+
+    @api.constrains('name', 'code')
+    def _check_duplicate_damage_type(self):
+        for damage in self:
+            if self.search_count([('name', 'ilike', damage.name.strip()), ('code', 'ilike', damage.code.strip()), ('id', '!=', damage.id)]):
+                raise ValidationError("You cannot add duplicate damage types!")
+
+DamageType()

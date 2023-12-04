@@ -13,7 +13,7 @@ class FleetBreakdown(models.Model):
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env['res.company']._default_currency_id(), string='Currency', help="The optional other currency if it is a multi-currency entry."    )
     vehicle_fmp_id = fields.Char(string='Vehicle ID', size=64)
     vin_no = fields.Char(string='Vin No', size=64, translate=True)
-    # color_id = fields.Many2one('color.color', string='Color')
+    color_id = fields.Many2one('color.color', string='Color')
     vehicle_plate = fields.Char(string='Vechicle Plate No.', translate=True)
     report_date = fields.Date(string='Report Date')
     odometer = fields.Float(string='Odometer')
@@ -65,7 +65,7 @@ class FleetBreakdown(models.Model):
             self.contact_no = vehicle.driver_contact_no or ''
             self.vin_no = vehicle.vin_sn or ''
             self.vehicle_fmp_id = vehicle.name or ''
-            # self.color_id = vehicle.vehical_color_id and vehicle.vehical_color_id.id or False
+            self.color_id = vehicle.vehicle_color_id and vehicle.vehicle_color_id.id or False
             self.vehicle_plate = vehicle.license_plate or ''
             self.odometer = vehicle.odometer or 0.0
             self.odometer_unit = vehicle.odometer_unit or False

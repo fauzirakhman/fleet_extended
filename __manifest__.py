@@ -28,6 +28,7 @@
         'data/ir_sequence.xml',
         'data/repair_type_data.xml',
         'data/vehicle_type_data.xml',
+        'data/color_color_data.xml',
         'data/damage_type_data.xml',
         'views/menuitems_views.xml',
     ],

@@ -21,8 +21,9 @@
             <xpath expr="//header/field[@name='state_id']" position="replace">
                 <button name="update_history" type="object" string="Update Tire" context="{'history':'tire'}" icon="fa-circle-o" class="oe_stat_button oe_highlight" groups="fleet.fleet_group_manager" attrs="{'invisible':[('state','in',('breakdown'))]}"/>
                 <button name="update_history" type="object" string="Update Battery" context="{'history':'battery'}" icon="fa-bolt" class="oe_stat_button oe_highlight" groups="fleet.fleet_group_manager" attrs="{'invisible':[('state','in',('breakdown'))]}"/>
+                <button name="update_history" type="object" string="Update Color" context="{'history':'color'}" icon="fa-paint-brush" class="oe_stat_button oe_highlight" groups="fleet.fleet_group_manager" attrs="{'invisible':[('state','in',('breakdown'))]}"/>
                 <button name="%(fleet_vehicle_log_services_form_action)d" type="action" string="Services" icon="fa-gears" class="oe_stat_button oe_highlight" context="{'default_vehicle_id': active_id}"/>
-                <button name="%(fleet_breakdown_form_action)d" type="action" string="Breakdown" icon="fa-gears" class="oe_stat_button oe_highlight" domain="[('state','in',('inspection','released'))]" context="{'default_vehicle_id': active_id}"/>
+                <button name="%(fleet_breakdown_form_action)d" type="action" string="Breakdown" icon="fa-exclamation-triangle" class="oe_stat_button oe_highlight" domain="[('state','in',('inspection','released'))]" context="{'default_vehicle_id': active_id}"/>
                 <field name="state" widget="statusbar" statusbar_visible="inspection,in_progress,complete"/>
             </xpath>
             <xpath expr="//field[@name='driver_id']" position="after">
@@ -61,6 +62,7 @@
                     </page>
                     <page string="History">
                         <group colspan="4" col="6">
+                            <field name="is_color_set" invisible="1" />
                             <field name="is_tire_season_set" invisible="1"/>
                             <field name="is_tire_size_set" invisible="1"/>
                             <field name="is_tire_srno_set" invisible="1"/>
@@ -99,6 +101,16 @@
                                 <field name="new_battery_issue_date"/>
                                 <field name="workorder_id"/>
                                 <field name="changed_date"/>
+                                <field name="note"/>
+                            </tree>
+                        </field>
+                        <separator string="Color History" colspan="4"/>
+                        <field name="color_history_ids" nolabel="1" >
+                            <tree>
+                                <field name="previous_color_id"/>
+                                <field name="current_color_id"/>
+                                <field name="changed_date"/>
+                                <field name="workorder_id"/>
                                 <field name="note"/>
                             </tree>
                         </field>
