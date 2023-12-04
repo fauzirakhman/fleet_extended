@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_email_service_reminder" model="ir.cron">
+            <field name="name">Fleet Email Service Reminder</field>
+            <field name="active" eval="True" />
+            <field name="state">code</field>
+            <field name="code">model.vehicle_service_reminder_send_mail()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="model_id" ref="fleet.model_fleet_vehicle"/>
+    </record>
+
+    <record id="ir_mail_server_service" model="ir.mail_server">
+        <field name="name">Vehicle Service</field>
+        <field name="smtp_host">smtp.gmail.com</field>
+        <field name="smtp_port" eval="465" />
+        <field name="sequence" eval="11" />
+        <field name="smtp_encryption">ssl</field>
+    </record>
+</odoo>

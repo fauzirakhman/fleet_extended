@@ -1,4 +1,5 @@
 from odoo import fields, models, api, _
+from odoo.exceptions import UserError
 
 
 class FleetVehicle(models.Model):
@@ -171,3 +172,19 @@ class FleetVehicle(models.Model):
         else:
             self.driver_identification_no = ''
             self.driver_contact_no = ''
+
+    @api.model
+    def vehicle_service_reminder_send_mail(self):
+        fleet_vehicles = self.env['fleet.vehicle'].search([('next_service_date', '=', fields.Date.today())])
+        for vehicle in fleet_vehicles:
+            if vehicle.driver_id and vehicle.driver_id.email:
+                res = self.env.ref('fleet_extended.fleet_email_service_reminder')
+                res.send_mail(vehicle.id, force_send=True)
+        return True
+
+    def copy(self, default=None):
+        if not default:
+            default = {}
+        if self.state == 'breakdown':
+            raise UserError(_('You cannot duplicate this record because it is already breakdown'))
+        return super(FleetVehicle, self).copy(default=default)

@@ -1,0 +1,25 @@
+<odoo>
+    <record model="ir.ui.view" id="view_breakdown_cancel_reason_wizard">
+        <field name="name">breakdown.cancel.reason.form</field>
+        <field name="model">breakdown.cancel.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <separator string="Reason To Cancel"/>
+                <group>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="cancel_breakdown" type="object" string="OK" class="oe_highlight"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_breakdown_cancel_reason_wizard">
+        <field name="name">Breakdown Cancel Reason Wizard</field>
+        <field name="res_model">breakdown.cancel.reason</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

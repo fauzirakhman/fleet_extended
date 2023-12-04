@@ -21,3 +21,4 @@ access_update_battery_info,access.update.battery.info,model_update_battery_info,
 access_update_color_info,access.update.color.info,model_update_color_info,,1,1,1,1
 access_update_next_service_config,access.update.next.service.config,model_update_next_service_config,,1,1,1,1
 access_pending_repair_confirm,access.pending.repair.confirm,model_pending_repair_confirm,,1,1,1,1
+access_breakdown_cancel_reason,access.breakdown.cancel.reason,model_breakdown_cancel_reason,,1,1,1,1

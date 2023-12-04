@@ -86,7 +86,7 @@ class FleetBreakdown(models.Model):
         for brkd in self:
             if brkd.vehicle_id:
                 brkd.vehicle_id.write({'state': 'breakdown', 'last_change_status_date': fields.Date.today()})
-            brkd.write({'state': 'confirm', 'name': self.env['ir.sequence']. next_by_code('vehicle.breakdown.sequnce')})
+            brkd.write({'state': 'confirm', 'name': self.env['ir.sequence']. next_by_code('fleet.breakdown.sequnce')})
 
     def action_set_to_draft(self):
         for brkd in self:
