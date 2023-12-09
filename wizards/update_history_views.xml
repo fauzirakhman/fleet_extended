@@ -21,6 +21,7 @@
                         <field name="new_tire_sn" required="1"/>
                         <field name="new_tire_issue_date" required="1"/>
                         <field name="changed_date"/>
+                        <field name="next_update_date"/>
                         <field name="vehicle_id" invisible="1"/>
                     </group>
                 </group>
@@ -57,6 +58,7 @@
                         <field name="new_battery_sn" required="1"/>
                         <field name="new_battery_issue_date" required="1"/>
                         <field name="changed_date"/>
+                        <field name="next_update_date"/>
                         <field name="vehicle_id" invisible="1"/>
                     </group>
                 </group>

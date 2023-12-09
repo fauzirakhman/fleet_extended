@@ -14,6 +14,7 @@ class UpdateTireInfo(models.TransientModel):
     previous_tire_issue_date = fields.Date(string='Previous Tire Issuance Date')
     new_tire_issue_date = fields.Date(string='New Tire Issuance Date')
     changed_date = fields.Date(string='Change Date',default=fields.Date.today())
+    next_update_date = fields.Date(string='Next Change Date', required=True)
     note = fields.Text('Notes', translate=True)
     temp_bool = fields.Boolean(default=True, string='Temp Bool for making ' 'previous Tire info readonly')
     workorder_id = fields.Many2one('fleet.vehicle.log.services', string='Work Order')
@@ -69,6 +70,7 @@ class UpdateTireInfo(models.TransientModel):
                     'new_tire_issue_date': wiz_data.new_tire_issue_date or False,
                     'note': wiz_data.note or '',
                     'changed_date': wiz_data.changed_date,
+                    'next_update_date': wiz_data.next_update_date,
                     'workorder_id': wiz_data.workorder_id.id or False,
                     'vehicle_id': vehicle.id
                 })
@@ -90,6 +92,7 @@ class UpdateBatteryInfo(models.TransientModel):
     previous_battery_issue_date = fields.Date(string='Previous Battery Issuance Date')
     new_battery_issue_date = fields.Date(string='New Battery Issuance Date')
     changed_date = fields.Date(string='Change Date', default=fields.Date.today())
+    next_update_date = fields.Date(string='Next Change Date')
     note = fields.Text(string='Notes', translate=True)
     temp_bool = fields.Boolean(default=True, string='Temp Bool for making previous Battery info readonly')
     workorder_id = fields.Many2one('fleet.vehicle.log.services', string='Work Order')
@@ -98,15 +101,13 @@ class UpdateBatteryInfo(models.TransientModel):
     @api.constrains('previous_battery_issue_date', 'new_battery_issue_date')
     def check_new_battery_issue_date(self):
         for vehicle in self:
-            if vehicle.previous_battery_issue_date and vehicle.new_battery_issue_date and \
-                    vehicle.new_battery_issue_date < vehicle.previous_battery_issue_date:
+            if vehicle.previous_battery_issue_date and vehicle.new_battery_issue_date and vehicle.new_battery_issue_date < vehicle.previous_battery_issue_date:
                 raise ValidationError('New battery issuance date should be greater than previous battery issuance date.')
 
     @api.constrains('changed_date', 'new_battery_issue_date')
     def check_battery_changed_date(self):
         for vehicle in self:
-            if vehicle.changed_date and vehicle.new_battery_issue_date \
-                    and vehicle.changed_date < vehicle.new_battery_issue_date:
+            if vehicle.changed_date and vehicle.new_battery_issue_date and vehicle.changed_date < vehicle.new_battery_issue_date:
                 raise ValidationError('Battery change date should be greater than new battery issuance date.')
 
     @api.model

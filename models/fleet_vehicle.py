@@ -123,7 +123,7 @@ class FleetVehicle(models.Model):
         if vals.get('battery_issuance_date', False):
             vals.update({'is_battery_issue_set': True})
 
-        if vals.get('vehical_color_id', False):
+        if vals.get('vehicle_color_id', False):
             vals.update({'is_color_set': True})
 
         return super(FleetVehicle, self).create(vals)

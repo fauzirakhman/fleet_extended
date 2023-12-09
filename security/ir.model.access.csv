@@ -7,6 +7,8 @@ access_next_increment_number,access.next.increment.number,model_next_increment_n
 access_next_service_days,access.next.service.days,model_next_service_days,,1,1,1,1
 access_damage_type,access.damage.type,model_damage_type,,1,1,1,1
 access_fleet_breakdown,access.fleet.breakdown,model_fleet_breakdown,,1,1,1,1
+access_damage_type_other_line,access.damage.type.other.line,model_damage_type_other_line,,1,1,1,1
+access_repair_type_other_line,access.repair.type.other.line,model_repair_type_other_line,,1,1,1,1
 
 access_tire_history,access.tire.history,model_tire_history,,1,1,1,1
 access_battery_history,access.battery.history,model_battery_history,,1,1,1,1

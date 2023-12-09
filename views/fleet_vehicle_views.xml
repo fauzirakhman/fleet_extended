@@ -30,8 +30,12 @@
                 <field name="driver_identification_no" attrs="{'readonly':[('state','in',('breakdown'))]}"/>
                 <field name="driver_contact_no" attrs="{'readonly':[('state','in',('breakdown'))]}"/>
             </xpath>
+            <xpath expr="//field[@name='color']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
             <xpath expr="//field[@name='acquisition_date']" position="after">
                 <field name="vehicle_type_id" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
+                <field name="vehicle_color_id" attrs="{'readonly':[('is_color_set','=',True)]}" options="{'no_open': True, 'create': false, 'create_edit': false}"/>
             </xpath>
             <xpath expr="//field[@name='odometer']" position="attributes">
                 <attribute name="attrs">{'readonly':[('state','in',('breakdown'))]}</attribute>

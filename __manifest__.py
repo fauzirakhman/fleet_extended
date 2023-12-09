@@ -33,6 +33,8 @@
         'data/damage_type_data.xml',
         'data/scheduler_data.xml',
         'views/menuitems_views.xml',
+        'reports/reports.xml',
+        'reports/report_breakdown_qweb.xml',
     ],
     'installable': True,
     'auto_install': False,

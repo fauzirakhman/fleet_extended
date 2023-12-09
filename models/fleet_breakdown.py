@@ -24,6 +24,8 @@ class FleetBreakdown(models.Model):
     multi_images = fields.Many2many('ir.attachment', 'fleet_breakdown_attachment_rel', 'breakdown_id','attachment_id', string='Multi Images')
     damage_type_ids = fields.Many2many('damage.type', 'fleet_breakdown_damage_type_rel', 'breakdown_id', 'damage_id', string="Damage Type")
     repair_type_ids = fields.Many2many('repair.type', 'fleet_breakdown_repair_type_rel', 'breakdown_id', 'repair_id', string="Repair Type")
+    damage_type_other_ids = fields.One2many('damage.type.other.line', 'breakdown_id', string='Damage Type Others')
+    repair_type_other_ids = fields.One2many('repair.type.other.line', 'breakdown_id', string='Repair Type Others')
     # location_id = fields.Many2one('vehicle.location', string='Location')
     driver_id = fields.Many2one('res.partner', string='Driver')
     breakdown_type = fields.Selection([('general_accident', 'General Accident'), ('insurgent_attack', 'Insurgent Attack')], string='Breakdown Type', default='general_accident')
@@ -40,6 +42,23 @@ class FleetBreakdown(models.Model):
         for cost in self:
             if cost.cost_esitmation < 0:
                 raise ValidationError("Expense to repair cost should not be negative!")
+
+    def write(self, vals):
+        for fleet_witten in self:
+            if fleet_witten.vehicle_id:
+                vals.update({
+                        'vin_no': fleet_witten.vehicle_id and fleet_witten.vehicle_id.vin_sn or "",
+                        'vehicle_fmp_id': fleet_witten.vehicle_id and fleet_witten.vehicle_id.name or "",
+                        'color_id': fleet_witten.vehicle_id and fleet_witten.vehicle_id.vehicle_color_id and fleet_witten.vehicle_id.vehicle_color_id.id or False,
+                        'vehicle_plate': fleet_witten.vehicle_id and fleet_witten.vehicle_id.license_plate or "",
+                        # 'province_id': fleet_witten.vehicle_id and fleet_witten.vehicle_id.vehicle_location_id and fleet_witten.vehicle_id.vehicle_location_id.id or False,
+                        # 'division_id': fleet_witten.vehicle_id and fleet_witten.vehicle_id.vehical_division_id and fleet_witten.vehicle_id.vehical_division_id.id or False,
+                        'driver_id': fleet_witten.vehicle_id and fleet_witten.vehicle_id.driver_id and fleet_witten.vehicle_id.driver_id.id or False,
+                        'contact_no': fleet_witten.vehicle_id and fleet_witten.vehicle_id.driver_id and fleet_witten.vehicle_id.driver_id.mobile or "",
+                        'odometer': fleet_witten.vehicle_id and fleet_witten.vehicle_id.odometer or 0.0,
+                        'odometer_unit': fleet_witten.vehicle_id and fleet_witten.vehicle_id.odometer_unit or False,
+                     })
+        return super(FleetBreakdown, self).write(vals)
 
     @api.model
     def default_get(self, fields):

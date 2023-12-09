@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <menuitem id="fleet.fleet_vehicle_service_types_menu" action="fleet.fleet_vehicle_service_types_action" parent="fleet.fleet_configuration" groups="fleet.fleet_group_manager" sequence="1"/>
-    <menuitem name="Odometer Increment" id="odometer_increment_menu" action="next_increment_number_action" parent="fleet.fleet_configuration" sequence="4" groups="fleet.fleet_group_manager"/>
+    <menuitem id="odometer_increment_menu" name="Odometer Increment" action="next_increment_number_action" parent="fleet.fleet_configuration" sequence="4" groups="fleet.fleet_group_manager"/>
     <menuitem id="next_service_days" action="next_service_days_action" parent="fleet.fleet_configuration" sequence="17"/>
-    <menuitem name="Repair Type" action="fleet_repair_type_action" parent="fleet.fleet_configuration" groups="fleet.fleet_group_manager" id="fleet_repair_type_menu" sequence="2"/>
+    <menuitem id="fleet_repair_type_menu" name="Repair Type" action="fleet_repair_type_action" parent="fleet.fleet_configuration" groups="fleet.fleet_group_manager" sequence="2"/>
     <menuitem id="breakdown_menu_id" name="Breakdown" groups="fleet.fleet_group_manager" action="fleet_breakdown_action" parent = "fleet.fleet_vehicles" sequence="4"/>
 </odoo>

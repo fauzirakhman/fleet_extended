@@ -71,6 +71,24 @@
                                     <field name="repair_type_ids" widget="many2many_checkboxes"/>
                                 </group>
                             </group>
+                            <notebook colspan="4">
+                                <page string="Damage Type Others" name="damage_type_others">
+                                    <field name="damage_type_other_ids">
+                                        <tree editable="bottom">
+                                            <field name="breakdown_id" invisible="1"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page string="Repair Type Others" name="repair_type_others">
+                                    <field name="repair_type_other_ids">
+                                        <tree editable="bottom">
+                                            <field name="breakdown_id" invisible="1"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
                         </page>
                         <page string="Breakdown Pictures">
                             <field name="multi_images" widget="many2many_binary"/>

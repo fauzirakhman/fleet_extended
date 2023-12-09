@@ -7,3 +7,5 @@ from . import fleet_history
 from . import pending_repair_type
 from . import update_pending_repair_history
 from . import fleet_breakdown
+from . import repair_type_other_line
+from . import damage_type_other_line
